@@ -1,0 +1,19 @@
+{
+  "name": "gauge-today",
+  "private": true,
+  "version": "1.0.0",
+  "description": "免费仪表盘 · freellmapi 聚合网关的健康墙：谁活着、谁快、额度还剩多少、挂了自动切谁",
+  "scripts": {
+    "setup": "pnpm install && pnpm --filter @gauge/prober discover",
+    "dev": "pnpm --filter @gauge/dashboard dev",
+    "prober": "pnpm --filter @gauge/prober start",
+    "discover": "pnpm --filter @gauge/prober discover",
+    "demo": "pnpm --filter @gauge/prober demo",
+    "demo:dashboard": "pnpm --filter @gauge/dashboard dev",
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm -r build"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

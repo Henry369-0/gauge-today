@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+/* 系列色板（开发文档 §7）：纸/墨/砖红/墨绿/芥末黄，状态语义自洽 */
+@theme {
+  --color-paper: #f2ead9;
+  --color-paper-deep: #e9ddc4;
+  --color-paper-card: #f7f1e3;
+  --color-ink: #2b2b26;
+  --color-ink-soft: #75735f;
+  --color-ink-faint: #a8a48c;
+  --color-brick: #b5482a;
+  --color-brick-deep: #93371e;
+  --color-moss: #3f5c4e;
+  --color-moss-soft: #5d7a6a;
+  --color-mustard: #d9a441;
+  --color-mustard-soft: #e5bc6e;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  background-image: radial-gradient(rgba(43, 43, 38, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  font-feature-settings: 'tnum';
+}
+
+/* 数字等宽，仪表盘气质 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+.card {
+  background: var(--color-paper-card);
+  border: 1px solid rgba(43, 43, 38, 0.28);
+  box-shadow:
+    0 1px 0 rgba(43, 43, 38, 0.12),
+    3px 3px 0 rgba(43, 43, 38, 0.07);
+}
+
+.btn {
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper-card);
+  box-shadow: 2px 2px 0 rgba(43, 43, 38, 0.35);
+  transition: all 0.08s ease;
+}
+.btn:hover {
+  background: var(--color-paper-deep);
+}
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-primary:hover {
+  background: #3a3a32;
+}
