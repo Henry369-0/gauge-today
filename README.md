@@ -78,6 +78,16 @@ gauge-today/
 
 技术选型：pnpm monorepo · Next.js 15 + Tailwind 4 · node:sqlite（WAL）· setTimeout 自调度（无 cron 库）· 手写 SVG sparkline/条带（无图表库）。
 
+## 本地验证
+
+```bash
+pnpm test        # 调度器：慢端点去重、在途预算、失败释放、常用层规则
+pnpm typecheck   # 所有工作区的 TypeScript 检查
+pnpm build       # 仪表盘生产构建
+```
+
+调度器测试使用临时 SQLite 和模拟上游，不消耗真实供应商额度。同一端点最多一个探测在途；长尾/尸体层的预算检查包含在途请求，避免余量被并发重复使用。常用层仍遵循预算耗尽后继续探测的规则。
+
 ## 边界与免责
 
 - 本项目定位**个人/家庭自托管**，与上游 freellmapi 同定位（"Personal experimentation only"）：不承诺 SLA、不做公共服务、状态页只给自己看。
