@@ -29,6 +29,7 @@ interface DueModel {
 
 export class Scheduler {
   private nextDue = new Map<string, number>();
+  private inFlight = new Set<string>();
   private running = 0;
   private consecutiveNetworkErrors = 0;
   private pausedUntil = 0;
@@ -129,7 +130,8 @@ export class Scheduler {
     if (Date.now() < this.pausedUntil) return;
 
     const used = this.probesToday();
-    const remaining = cfg.budgetDaily - used;
+    // 在途请求也占用预算槽位，避免多个 tick/并发请求借未落库的余量超发。
+    let remaining = cfg.budgetDaily - used - this.running;
 
     const now = Date.now();
     const due: DueModel[] = [];
@@ -141,9 +143,12 @@ export class Scheduler {
 
     for (const m of due) {
       if (this.running >= cfg.concurrency) break;
+      if (this.inFlight.has(m.id)) continue;
       // §5：预算耗尽只放行常用层（"耗尽则本轮跳过低优先级"）
       if (remaining <= 0 && m.tier !== 'common') continue;
+      this.inFlight.add(m.id);
       this.running++;
+      remaining--;
       void this.probeOne(m.id, m.tier, cfg);
     }
   }
@@ -194,6 +199,7 @@ export class Scheduler {
       this.nextDue.set(modelId, Date.now() + 300_000);
     } finally {
       this.running--;
+      this.inFlight.delete(modelId);
     }
   }
 
